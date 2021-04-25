@@ -1,0 +1,8 @@
+## Interface: 90005
+## Title: BlizzMove Plugin - QuestTracker
+## Notes: Allows you to move the QuestTracker with BlizzMove
+## Author: Numy
+## RequiredDeps: BlizzMove
+## Version: @project-version@
+
+BlizzMovePlugin_QuestTracker.lua
