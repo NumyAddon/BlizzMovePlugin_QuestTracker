@@ -1,8 +1,9 @@
-## Interface: 90005
+## Interface: @toc-version-retail@
 ## Title: BlizzMove Plugin - QuestTracker
 ## Notes: Allows you to move the QuestTracker with BlizzMove
 ## Author: Numy
 ## RequiredDeps: BlizzMove
 ## Version: @project-version@
+## X-Curse-Project-ID: 475676
 
 BlizzMovePlugin_QuestTracker.lua
