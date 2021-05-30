@@ -2,6 +2,7 @@
 local _G = getfenv(0);
 local CreateFrame = _G.CreateFrame;
 local ObjectiveTrackerFrame = _G.ObjectiveTrackerFrame;
+local QuestWatchFrame = _G.QuestWatchFrame;
 local BlizzMoveAPI = _G.BlizzMoveAPI;
 local print = _G.print;
 local IsAddOnLoaded = _G.IsAddOnLoaded;
@@ -24,6 +25,15 @@ Plugin.frameTable = {
             SubFrames = {
                 ['BlizzMovePlugin_QuestTracker.MoveHandleFrame'] = {
                     MinVersion = 30000, -- added when?
+                },
+            },
+        },
+        ["QuestWatchFrame"] = {
+            MaxVersion = 30000, -- removed when?
+            IgnoreMouse = true,
+            SubFrames = {
+                ['BlizzMovePlugin_QuestTracker.MoveHandleFrame'] = {
+                    MaxVersion = 30000, -- removed when?
                 },
             },
         },
@@ -53,13 +63,23 @@ function Plugin:ADDON_LOADED(addonName)
             print(name .. ' - Incompatible BlizzMove version is installed, please update BlizzMove!');
             return;
         end
-        self.MoveHandleFrame = self:CreateMoveHandleAtPoint(
-                ObjectiveTrackerFrame,
-                'CENTER',
-                'TOPRIGHT',
-                8,
-                -12
-        )
+        if(ObjectiveTrackerFrame) then
+            self.MoveHandleFrame = self:CreateMoveHandleAtPoint(
+                    ObjectiveTrackerFrame,
+                    'CENTER',
+                    'TOPRIGHT',
+                    8,
+                    -12
+            );
+        elseif(QuestWatchFrame) then
+            self.MoveHandleFrame = self:CreateMoveHandleAtPoint(
+                    QuestWatchFrame,
+                    'CENTER',
+                    'TOPRIGHT',
+                    -10,
+                    0
+            );
+        end
         BlizzMoveAPI:RegisterAddOnFrames(self.frameTable);
     end
 end
