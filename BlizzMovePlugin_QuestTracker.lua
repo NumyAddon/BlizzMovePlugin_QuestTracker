@@ -8,37 +8,11 @@ local print = _G.print;
 local IsAddOnLoaded = _G.IsAddOnLoaded;
 local UIParent = _G.UIParent;
 
-local name = ... or 'BlizzMovePlugin_QuestTracker';
-
-_G.BlizzMovePlugin_QuestTracker = {};
-local Plugin = _G.BlizzMovePlugin_QuestTracker;
+local name, Plugin = ...;
 
 local frame = CreateFrame('Frame');
 frame:HookScript('OnEvent', function(_, _, addonName) Plugin:ADDON_LOADED(addonName); end);
 frame:RegisterEvent('ADDON_LOADED');
-
-Plugin.frameTable = {
-    [name] = {
-        ["ObjectiveTrackerFrame"] = {
-            MinVersion = 30000, -- added when?
-            IgnoreMouse = true,
-            SubFrames = {
-                ['BlizzMovePlugin_QuestTracker.MoveHandleFrame'] = {
-                    MinVersion = 30000, -- added when?
-                },
-            },
-        },
-        ["QuestWatchFrame"] = {
-            MaxVersion = 30000, -- removed when?
-            IgnoreMouse = true,
-            SubFrames = {
-                ['BlizzMovePlugin_QuestTracker.MoveHandleFrame'] = {
-                    MaxVersion = 30000, -- removed when?
-                },
-            },
-        },
-    },
-};
 
 function Plugin:CreateMoveHandleAtPoint(parentFrame, anchorPoint, relativePoint, offX, offY)
     if (not parentFrame) then return nil; end
@@ -59,8 +33,16 @@ end
 
 function Plugin:ADDON_LOADED(addonName)
     if (addonName == 'BlizzMove' or (addonName == name and IsAddOnLoaded('BlizzMove'))) then
-        if (not BlizzMoveAPI or not BlizzMoveAPI.RegisterAddOnFrames) then
-            print(name .. ' - Incompatible BlizzMove version is installed, please update BlizzMove!');
+        local compatible = false;
+        if(BlizzMoveAPI and BlizzMoveAPI.GetVersion and BlizzMoveAPI.RegisterAddOnFrames) then
+            local _, _, _, _, versionInt = BlizzMoveAPI:GetVersion()
+            if (versionInt == nil or versionInt >= 30200) then
+                compatible = true;
+            end
+        end
+
+        if(not compatible) then
+            print(name .. ' is not compatible with the current version of BlizzMove, please update.')
             return;
         end
         if(ObjectiveTrackerFrame) then
@@ -80,8 +62,31 @@ function Plugin:ADDON_LOADED(addonName)
                     0
             );
         end
-        BlizzMoveAPI:RegisterAddOnFrames(self.frameTable);
+
+        local frameTable = {
+            [name] = {
+                ["ObjectiveTrackerFrame"] = {
+                    MinVersion = 30000, -- added when?
+                    IgnoreMouse = true,
+                    SubFrames = {
+                        ['BlizzMovePlugin-QuestTrackerButton'] = {
+                            FrameReference = self.MoveHandleFrame,
+                            MinVersion = 30000, -- added when?
+                        },
+                    },
+                },
+                ["QuestWatchFrame"] = {
+                    MaxVersion = 30000, -- removed when?
+                    IgnoreMouse = true,
+                    SubFrames = {
+                        ['BlizzMovePlugin-QuestTrackerButton'] = {
+                            FrameReference = self.MoveHandleFrame,
+                            MaxVersion = 30000, -- removed when?
+                        },
+                    },
+                },
+            },
+        };
+        BlizzMoveAPI:RegisterAddOnFrames(frameTable);
     end
 end
-
-
