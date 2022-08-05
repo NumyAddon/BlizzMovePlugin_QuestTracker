@@ -3,6 +3,7 @@ local _G = getfenv(0);
 local CreateFrame = _G.CreateFrame;
 local ObjectiveTrackerFrame = _G.ObjectiveTrackerFrame;
 local QuestWatchFrame = _G.QuestWatchFrame;
+local WatchFrame = _G.WatchFrame;
 local BlizzMoveAPI = _G.BlizzMoveAPI;
 local print = _G.print;
 local IsAddOnLoaded = _G.IsAddOnLoaded;
@@ -61,27 +62,47 @@ function Plugin:ADDON_LOADED(addonName)
                     -10,
                     0
             );
+        elseif(WatchFrame) then
+            self.MoveHandleFrame = self:CreateMoveHandleAtPoint(
+                    WatchFrame,
+                    'CENTER',
+                    'TOPRIGHT',
+                    -10,
+                    0
+            );
         end
 
         local frameTable = {
             [name] = {
                 ["ObjectiveTrackerFrame"] = {
-                    MinVersion = 30000, -- added when?
+                    MinVersion = 40000, -- added when?
                     IgnoreMouse = true,
                     SubFrames = {
                         ['BlizzMovePlugin-QuestTrackerButton'] = {
                             FrameReference = self.MoveHandleFrame,
-                            MinVersion = 30000, -- added when?
+                            MinVersion = 40000, -- added when?
                         },
                     },
                 },
                 ["QuestWatchFrame"] = {
-                    MaxVersion = 30000, -- removed when?
+                    MaxVersion = 30000,
                     IgnoreMouse = true,
                     SubFrames = {
                         ['BlizzMovePlugin-QuestTrackerButton'] = {
                             FrameReference = self.MoveHandleFrame,
-                            MaxVersion = 30000, -- removed when?
+                            MaxVersion = 30000,
+                        },
+                    },
+                },
+                ["WatchFrame"] = {
+                    MinVersion = 30000,
+                    MaxVersion = 40000,
+                    IgnoreMouse = true,
+                    SubFrames = {
+                        ['BlizzMovePlugin-QuestTrackerButton'] = {
+                            FrameReference = self.MoveHandleFrame,
+                            MinVersion = 30000,
+                            MaxVersion = 40000,
                         },
                     },
                 },

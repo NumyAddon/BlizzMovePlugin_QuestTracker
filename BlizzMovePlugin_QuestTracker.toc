@@ -2,6 +2,7 @@
 ## Interface-Retail: @toc-version-retail@
 ## Interface-Classic: @toc-version-classic@
 ## Interface-BCC: @toc-version-bcc@
+## Interface-Wrath: @toc-version-wrath@
 ## Title: BlizzMove Plugin - QuestTracker
 ## Notes: Allows you to move the QuestTracker with BlizzMove
 ## Author: Numy
