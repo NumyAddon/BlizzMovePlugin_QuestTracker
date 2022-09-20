@@ -70,6 +70,7 @@ function Plugin:ADDON_LOADED(addonName)
                     -10,
                     0
             );
+            WatchFrame:SetHeight(WatchFrame:GetHeight());
         end
 
         local frameTable = {
