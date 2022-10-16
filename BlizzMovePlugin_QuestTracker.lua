@@ -7,7 +7,6 @@ local WatchFrame = _G.WatchFrame;
 local BlizzMoveAPI = _G.BlizzMoveAPI;
 local print = _G.print;
 local IsAddOnLoaded = _G.IsAddOnLoaded;
-local UIParent = _G.UIParent;
 
 local name, Plugin = ...;
 
@@ -18,7 +17,7 @@ frame:RegisterEvent('ADDON_LOADED');
 function Plugin:CreateMoveHandleAtPoint(parentFrame, anchorPoint, relativePoint, offX, offY)
     if (not parentFrame) then return nil; end
 
-    local handleFrame = CreateFrame('Frame', nil, UIParent);
+    local handleFrame = CreateFrame('Frame', nil, parentFrame);
     handleFrame:SetPoint(anchorPoint, parentFrame, relativePoint, offX, offY);
     handleFrame:SetHeight(16);
     handleFrame:SetWidth(16);
@@ -51,7 +50,7 @@ function Plugin:ADDON_LOADED(addonName)
                     ObjectiveTrackerFrame,
                     'CENTER',
                     'TOPRIGHT',
-                    8,
+                    0,
                     -12
             );
         elseif(QuestWatchFrame) then
@@ -110,5 +109,13 @@ function Plugin:ADDON_LOADED(addonName)
             },
         };
         BlizzMoveAPI:RegisterAddOnFrames(frameTable);
+
+        EventRegistry:RegisterCallback('EditMode.Exit', Plugin.OnEditModeExit, Plugin);
+    end
+end
+
+function Plugin:OnEditModeExit()
+    if (self.MoveHandleFrame) then
+        self.MoveHandleFrame:GetParent():SetMovable(true);
     end
 end
