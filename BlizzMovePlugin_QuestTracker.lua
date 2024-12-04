@@ -4,6 +4,7 @@ local CreateFrame = _G.CreateFrame;
 local ObjectiveTrackerFrame = _G.ObjectiveTrackerFrame;
 local QuestWatchFrame = _G.QuestWatchFrame;
 local WatchFrame = _G.WatchFrame;
+--- @type BlizzMoveAPI
 local BlizzMoveAPI = _G.BlizzMoveAPI;
 local print = _G.print;
 local IsAddOnLoaded = _G.C_AddOns.IsAddOnLoaded;
@@ -22,6 +23,8 @@ function Plugin:CreateMoveHandleAtPoint(parentFrame, anchorPoint, relativePoint,
     handleFrame:SetHeight(16);
     handleFrame:SetWidth(16);
     handleFrame:SetFrameStrata(parentFrame:GetFrameStrata());
+    handleFrame:SetClampedToScreen(true);
+    handleFrame:SetClampRectInsets(0, 0, 0, 0);
 
     handleFrame.texture = handleFrame:CreateTexture();
     handleFrame.texture:SetTexture('Interface/Buttons/UI-Panel-BiggerButton-Up');
@@ -52,8 +55,8 @@ function Plugin:ADDON_LOADED(addonName)
                 ObjectiveTrackerFrame,
                 'CENTER',
                 'TOPRIGHT',
-                0,
-                -12
+                5,
+                -5
             );
         elseif (QuestWatchFrame) then
             frameName = 'QuestWatchFrame';
@@ -76,19 +79,19 @@ function Plugin:ADDON_LOADED(addonName)
             WatchFrame:SetHeight(WatchFrame:GetHeight());
         end
 
-        local frameTable = {
+        BlizzMoveAPI:RegisterAddOnFrames({
             [name] = {
                 [frameName] = {
                     IgnoreMouse = true,
                     SubFrames = {
                         ['BlizzMovePlugin-QuestTrackerButton'] = {
                             FrameReference = self.MoveHandleFrame,
+                            IgnoreClamping = true,
                         },
                     },
                 },
             },
-        };
-        BlizzMoveAPI:RegisterAddOnFrames(frameTable);
+        });
 
         EventRegistry:RegisterCallback('EditMode.Exit', Plugin.OnEditModeExit, Plugin);
     end
