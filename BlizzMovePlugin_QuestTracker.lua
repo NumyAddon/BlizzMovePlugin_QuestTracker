@@ -83,7 +83,7 @@ function Plugin:ADDON_LOADED(addonName)
             [name] = {
                 [frameName] = {
                     IgnoreMouse = true,
-                    ForcePosition = true,
+                    ForcePosition = not C_AddOns.IsAddOnLoaded('Blizzard_EditMode'),
                     SubFrames = {
                         ['BlizzMovePlugin-QuestTrackerButton'] = {
                             FrameReference = self.MoveHandleFrame,
