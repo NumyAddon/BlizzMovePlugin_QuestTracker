@@ -1,13 +1,12 @@
 -- upvalue the globals
-local _G = getfenv(0);
-local CreateFrame = _G.CreateFrame;
-local ObjectiveTrackerFrame = _G.ObjectiveTrackerFrame;
-local QuestWatchFrame = _G.QuestWatchFrame;
-local WatchFrame = _G.WatchFrame;
+local CreateFrame = CreateFrame;
+local ObjectiveTrackerFrame = ObjectiveTrackerFrame;
+local QuestWatchFrame = QuestWatchFrame;
+local WatchFrame = WatchFrame;
 --- @type BlizzMoveAPI
-local BlizzMoveAPI = _G.BlizzMoveAPI;
-local print = _G.print;
-local IsAddOnLoaded = _G.C_AddOns.IsAddOnLoaded;
+local BlizzMoveAPI = BlizzMoveAPI;
+local print = print;
+local IsAddOnLoaded = C_AddOns.IsAddOnLoaded;
 
 local name, Plugin = ...;
 
