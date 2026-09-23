@@ -5,6 +5,8 @@
 ## Title: BlizzMove Plugin - QuestTracker
 ## Notes: Allows you to move the QuestTracker with BlizzMove
 ## Author: Numy
+## X-GameType: [Game]
+## X-GameFamily: [Family]
 ## IconTexture: Interface\Addons\BlizzMovePlugin_QuestTracker\media\icon
 ## RequiredDeps: BlizzMove
 ## Version: @project-version@
